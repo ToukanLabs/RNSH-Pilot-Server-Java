@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'eclipse-wtp'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	providedCompile 'javax.servlet:servlet-api:2.5'
+  	runtime 'javax.servlet:jstl:1.1.2'
+    compile 'com.graphql-java:graphql-java:2.0.0'
+    compile 'org.slf4j:slf4j-simple:1.6.1'
+    compile 'org.codehaus.jackson:jackson-core-asl:1.9.9'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.4'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.4'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.4'
+}
+
+httpPort = 3001
