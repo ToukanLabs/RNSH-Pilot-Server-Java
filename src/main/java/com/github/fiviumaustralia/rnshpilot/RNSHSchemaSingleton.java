@@ -60,11 +60,19 @@ public class RNSHSchemaSingleton {
                     .description("Medical Record Number used for patient identification at RNSH") 
                     .type(GraphQLString) 
                     .build()) 
-//                .field(newFieldDefinition() 
-//                    .name("ehrId") 
-//                    .description("openEHR electronic health record identifier") 
-//                    .type(GraphQLString) 
-//                    .build())
+                .field(newFieldDefinition() 
+                    .name("ehrId") 
+                    .description("openEHR electronic health record identifier") 
+                    .type(GraphQLString) 
+                    .dataFetcher(new DataFetcher() { 
+						public Object get(DataFetchingEnvironment environment) {
+							Patient p = (Patient)environment.getSource();
+							String mrn = p.getMrn();
+
+							return GetPatientService().GetEhrId(mrn);
+						} 
+                    }) 
+                    .build())
                 .field(newFieldDefinition() 
                     .name("dob") 
                     .description("Patient Date of birth") 

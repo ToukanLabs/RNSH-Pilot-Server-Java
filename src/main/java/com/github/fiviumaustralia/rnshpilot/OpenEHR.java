@@ -94,8 +94,7 @@ public class OpenEHR implements PatientService {
 		
 		ArrayList<PartyAdditionalInfo> info = party.getPartyAdditionalInfo();
 	    for (int i = 0; i < info.size(); i++) {
-	    	PartyAdditionalInfo pai = info.get(0);
-	    	System.out.println("key is:" + pai.getKey());
+	    	PartyAdditionalInfo pai = info.get(i);
 	    	switch (pai.getKey()) {
 	            case "rnsh.mrn":  p.setMrn(pai.getValue());
 	                     break;
@@ -147,9 +146,9 @@ public class OpenEHR implements PatientService {
 		String url = sb.toString();
 		Response resp = OpenEHRRequest(url, null, "GET");
 		ObjectMapper mapper = new ObjectMapper();
-        Party party = null;
+        PartyWrapper partyWrap = null;
         try {
-        	party = mapper.readValue(resp.getBody(), Party.class);
+        	partyWrap = mapper.readValue(resp.getBody(), PartyWrapper.class);
         } catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -157,12 +156,30 @@ public class OpenEHR implements PatientService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return PartyToPatient(party);
+		return PartyToPatient(partyWrap.getParty());
 	}
 
 	public String GetEhrId(String mrn) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		sb.append(getBaseUrl());
+		sb.append("ehr/?subjectId=");
+		sb.append(mrn);
+		sb.append("&subjectNamespace=");
+		sb.append(getSubjectNamespace());
+		String url = sb.toString();
+		Response resp = OpenEHRRequest(url, null, "GET");
+		ObjectMapper mapper = new ObjectMapper();
+		EHR ehr = null;
+		try {
+			ehr = mapper.readValue(resp.getBody(), EHR.class);
+        } catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ehr.getEhrId();
 	}
 
 	public Patient CreatePatient(String firstname, String surname,
@@ -174,6 +191,10 @@ public class OpenEHR implements PatientService {
 
 	public static String getBaseUrl() {
 		return baseUrl;
+	}
+
+	public static String getSubjectNamespace() {
+		return subjectNamespace;
 	}
 
 }

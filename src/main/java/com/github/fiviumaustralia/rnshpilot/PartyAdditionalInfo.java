@@ -1,11 +1,26 @@
 package com.github.fiviumaustralia.rnshpilot;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PartyAdditionalInfo {
 	private String id;
 	private int version;
 	private String key;
 	private  String value;
 	
+	@JsonCreator
+	public PartyAdditionalInfo(
+		@JsonProperty("id") String id, 
+	    @JsonProperty("version") int version,
+	    @JsonProperty("key") String key,
+	    @JsonProperty("value") String value) {
+	        this.id = id;
+	        this.version = version;
+	        this.key = key;
+	        this.value = value;
+	}
+
 	@Override
 	public String toString() {
 	    String s = "party info: ";

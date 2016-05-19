@@ -76,7 +76,7 @@ public class Party {
 	}
 
 	public ArrayList<PartyAdditionalInfo> getPartyAdditionalInfo() {
-		return partyAdditionalInfo;
+		return this.partyAdditionalInfo;
 	}
 
 	public void setPartyAdditionalInfo(
