@@ -171,7 +171,7 @@ public class RNSHSchemaSingleton {
 	public PatientService GetPatientService(){
 		if (patientService == null) {
 			System.out.println("initialising patient service");
-			patientService = new OpenEHR("https://ehrscape.code-4-health.org/rest/v1/", "rnsh.mrn", "rnshpilot_c4h", "lIsombRI");
+			patientService = new OpenEHR("https://ehrscape.code4health.org/rest/v1/", "rnsh.mrn", "rnshpilot_c4h", "lIsombRI");
 		}
 		return patientService;
 	}
